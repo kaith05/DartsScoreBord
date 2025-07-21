@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ダーツスコアボード</title>
+</head>
+<body>
+  <h1>ダーツスコア</h1>
+  <input type="number" id="scoreInput" placeholder="スコア入力">
+  <button onclick="sendScore()">送信</button>
+  <h2>現在のスコア: <span id="scoreDisplay">0</span></h2>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function sendScore() {
+      const score = document.getElementById('scoreInput').value;
+      socket.emit('scoreUpdate', score);
+    }
+
+    socket.on('scoreUpdate', (score) => {
+      document.getElementById('scoreDisplay').textContent = score;
+    });
+  </script>
+</body>
+</html>
